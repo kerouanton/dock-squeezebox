@@ -5,4 +5,4 @@ docker run \
     -ti \
     --name smb_client2 \
     -v /mnt:/mnt \
-    squeezebox-smb /bin/bash
+    squeezebox-smb sh

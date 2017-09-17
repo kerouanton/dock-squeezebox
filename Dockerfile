@@ -6,8 +6,9 @@
 
 FROM alpine:latest
 RUN apk update && apk add cifs-utils
-COPY ./smbcred /etc/smbcred
+COPY smbcred /etc/smbcred
 RUN mkdir /mnt/squeezebox
-RUN echo "//qnap2/dskmusic/squeezebox   /mnt/squeezebox   cifs   _netdev,auto,credentials=/etc/smbcred   0   0" >> /etc/fstab
+RUN echo "//qnap2/dskmusic/squeezebox   /mnt/squeezebox   cifs   \
+    _netdev,credentials=/etc/smbcred   0   0" > /etc/fstab
 #RUN mount -a
 CMD sleep infinity
