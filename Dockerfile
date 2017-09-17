@@ -1,8 +1,18 @@
-# Container mounting a Guest CIFS remote folder.
-# BK 09.2017
-# Warning, run with cap-add to enable mount.
+# Logitech Squeezebox Service
 #
-# Usage: docker run --cap-add SYS_ADMIN --cap-add DAC_READ_SEARCH -ti debian bash
+# Author: BK
+# Date: sept.2017
+
+# squeezebox-smb :
+#  Mounts a CIFS share to my NAS,
+#  and provides it as a volume
+#  to the other squeezebox docker containers.
+#
+# This docker needs to be run with extended
+# capabilities since it mounts a CIFS filesystem.
+# Usage: docker run --cap-add SYS_ADMIN
+#                   --cap-add DAC_READ_SEARCH
+#                    -ti squeezebox-vm
 
 FROM alpine:latest
 
