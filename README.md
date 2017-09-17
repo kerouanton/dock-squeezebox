@@ -10,18 +10,8 @@ I'm currently learning Docker and GIT, so I've trying to put something useful he
 
 My home music setup consists of several Logitech Squeezeboxes, served by a Logitech Media Server (LMS) running as a Debian VM on ESXi. The music files (mostly FLAC) are served to the LMS server via a CIFS share on my main NAS.
 
-
 ![](schematics.png)
 
->                                                       ┌───────────────────────────┐
-> ┌────────────────────┐     ┌───────────────────┐   ┌──▶  Squeezebox Radio room 1  │
-> │      QNAP NAS      │     │                   │   │  └───────────────────────────┘ 
-> │    (CIFS share)    │     │  Logitech Media   │   │  ┌───────────────────────────┐
-> │                    │◀────┤      Server       │───┼──▶  Squeezebox Radio room 2  │
-> │ //qnap2/squeezebox │     │ (Debian Linux VM) │   │  └───────────────────────────┘ 
-> │   (music files)    │     │                   │   │  ┌───────────────────────────┐
-> └────────────────────┘     └───────────────────┘   └──▶  Squeezebox Radio room 3  │
->                                                       └───────────────────────────┘ 
 
 ## Intended goal
 
@@ -30,20 +20,6 @@ My actual goal is to "dockerize" this setup, the following way:
 * a Boot2Docker engine VM on ESXi, to run the docker containers.
 * squeezebox-smb : a docker container mounting the NAS share and serving it as a volume to the main container.
 * squeezebox-lms : a docker container running LMS, exposing port 9000 (default on LMS) to the squeezebox radios and for the web portal.
-
->
->                          ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─                                        
->                                  Docker       │         .───────────────────────────. 
-> ┌────────────────────┐   │ ┌─────────────┐      ┌─────▶(   Squeezebox Radio room 1   )
-> │      QNAP NAS      │     │    CIFS     │    │ │       `───────────────────────────' 
-> │    (CIFS share)    │  ┌┼─┤   broker    │◀─┐   │       .───────────────────────────. 
-> │                    ◀──┘  └─────────────┘  │ │ ├─────▶(   Squeezebox Radio room 2   )
-> │ //qnap2/squeezebox │   │ ┌─────────────┐  │   │       `───────────────────────────' 
-> │                    │     │     LMS     │──┘ │ │       .───────────────────────────. 
-> └────────────────────┘   │ └─────────────┘      ├─────▶(   Squeezebox Radio room 3   )
->                                   │           │ │       `───────────────────────────' 
->                          └ ─ ─ ─ ─│─ ─ ─ ─ ─ ─  │                                     
->                                   └─────────────┘                                     
 
 
 ## First issues
