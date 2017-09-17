@@ -5,10 +5,15 @@
 # Usage: docker run --cap-add SYS_ADMIN --cap-add DAC_READ_SEARCH -ti debian bash
 
 FROM alpine:latest
+VOLUME /mnt
 RUN apk update && apk add cifs-utils
 COPY smbcred /etc/smbcred
 RUN mkdir /mnt/squeezebox
 RUN echo "//qnap2/dskmusic/squeezebox   /mnt/squeezebox   cifs   \
     _netdev,credentials=/etc/smbcred   0   0" > /etc/fstab
-#RUN mount -a
-CMD sleep infinity
+RUN echo "mount -a" > /tmp/run.sh
+RUN echo "sleep infinity" >> /tmp/run.sh
+RUN chmod 755 /tmp/run.sh
+CMD ["/tmp/run.sh"]
+#CMD ["mount","-a"]
+#CMD sleep infinity
