@@ -4,8 +4,8 @@
 #
 # Usage: docker run --cap-add SYS_ADMIN --cap-add DAC_READ_SEARCH -ti debian bash
 
-FROM debian:latest
-RUN apt-get update && apt-get install -y cifs-utils
+FROM alpine:latest
+RUN apk update && apk add cifs-utils
 COPY ./smbcred /etc/smbcred
 RUN mkdir /mnt/squeezebox
 RUN echo "//qnap2/dskmusic/squeezebox   /mnt/squeezebox   cifs   _netdev,auto,credentials=/etc/smbcred   0   0" >> /etc/fstab
