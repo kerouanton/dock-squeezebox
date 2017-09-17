@@ -6,7 +6,7 @@ CIFS-mounting container for my Squeezebox server
 
 I'm currently learning Docker and GIT, so I've trying to put something useful here as a first try.
 
-##Current setup
+## Current setup
 
 My home music setup consists of several Logitech Squeezeboxes, served by a Logitech Media Server (LMS) running as a Debian VM on ESXi. The music files (mostly FLAC) are served to the LMS server via a CIFS share on my main NAS.
 
@@ -46,7 +46,7 @@ Since it's my first try, I found out some glitches and subtleties :
 * squeezebox-lms:
   - todo.
 
-## todo
+## Todo
 
 1. Finding a way to share the mounted CIFS share on squeezebox-smb to my other container (squeezebox-lms at the end).
 2. Creating a Dockerfile for squeezebox-lms.
