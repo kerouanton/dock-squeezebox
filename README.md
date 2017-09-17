@@ -29,6 +29,19 @@ My actual goal is to "dockerize" this setup, the following way:
 * squeezebox-smb : a docker container mounting the NAS share and serving it as a volume to the main container.
 * squeezebox-lms : a docker container running LMS, exposing port 9000 (default on LMS) to the squeezebox radios and for the web portal.
 
+>
+>                          ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─                                        
+>                                  Docker       │         .───────────────────────────. 
+> ┌────────────────────┐   │ ┌─────────────┐      ┌─────▶(   Squeezebox Radio room 1   )
+> │      QNAP NAS      │     │    CIFS     │    │ │       `───────────────────────────' 
+> │    (CIFS share)    │  ┌┼─┤   broker    │◀─┐   │       .───────────────────────────. 
+> │                    ◀──┘  └─────────────┘  │ │ ├─────▶(   Squeezebox Radio room 2   )
+> │ //qnap2/squeezebox │   │ ┌─────────────┐  │   │       `───────────────────────────' 
+> │                    │     │     LMS     │──┘ │ │       .───────────────────────────. 
+> └────────────────────┘   │ └─────────────┘      ├─────▶(   Squeezebox Radio room 3   )
+>                                   │           │ │       `───────────────────────────' 
+>                          └ ─ ─ ─ ─│─ ─ ─ ─ ─ ─  │                                     
+>                                   └─────────────┘                                     
 
 
 ## First issues
