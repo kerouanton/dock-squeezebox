@@ -11,6 +11,8 @@ I'm currently learning Docker and GIT, so I've trying to put something useful he
 My home music setup consists of several Logitech Squeezeboxes, served by a Logitech Media Server (LMS) running as a Debian VM on ESXi. The music files (mostly FLAC) are served to the LMS server via a CIFS share on my main NAS.
 
 
+![](schematics.png)
+
 >                                                       ┌───────────────────────────┐
 > ┌────────────────────┐     ┌───────────────────┐   ┌──▶  Squeezebox Radio room 1  │
 > │      QNAP NAS      │     │                   │   │  └───────────────────────────┘ 
