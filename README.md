@@ -12,38 +12,6 @@ My home music setup consists of several Logitech Squeezeboxes, served by a Logit
 
 ![](schematics.png)
 
-┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃                          ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐                          ┃
-┃                                    ESXi                 .─────────────────. ┃
-┃ ┌────────────────────┐   │ ┌───────────────────┐ │ ┌──▶( SqueezeboxRadio1  )┃
-┃ │      QNAP NAS      │     │                   │   │    `─────────────────' ┃
-┃ │    (CIFS share)    │   │ │  Logitech Media   │ │ │    .─────────────────. ┃
-┃ │                    │◀────┤      Server       │───┼──▶( SqueezeboxRadio2  )┃
-┃ │ //qnap2/squeezebox │   │ │    (Debian VM)    │ │ │    `─────────────────' ┃
-┃ │                    │     │                   │   │    .─────────────────. ┃
-┃ └────────────────────┘   │ └───────────────────┘ │ ├──▶( SqueezeboxRadio3  )┃
-┃                                                    │    `─────────────────' ┃
-┃                          └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘ └──▶  etc.               ┃
-┃Actual setup                                                                 ┃
-┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃      Data flow:    ────CIFS─────▶ ───HTTP(s)───▶   ────Docker Volume─────▶  ┃
-┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
-┃                          ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─                              ┃
-┃ ┌────────────────────┐           Docker       │         .─────────────────. ┃
-┃ │      QNAP NAS      │   │ ┌─────────────┐      ┌─────▶( SqueezeboxRadio1  )┃
-┃ │    (CIFS share)    │     │    CIFS     │    │ │       `─────────────────' ┃
-┃ │                    │◀──┼─│   broker    │◀─┐   │       .─────────────────. ┃
-┃ │ //qnap2/squeezebox │     └─────────────┘  │ │ ├─────▶( SqueezeboxRadio2  )┃
-┃ │                    │   │ ┌─────────────┐  │   │       `─────────────────' ┃
-┃ └────────────────────┘     │     LMS     │──┘ │ │       .─────────────────. ┃
-┃                          │ └─────────────┘      ├─────▶( SqueezeboxRadio3  )┃
-┃                                   │           │ │       `─────────────────' ┃
-┃                          └ ─ ─ ─ ─│─ ─ ─ ─ ─ ─  ├─────▶  etc.               ┃
-┃Final goal                         └─────────────┘                           ┃
-╠═════════════════════════════════════════════════════════════════╦═══════════╣
-║                Logitech Squeezebox Server setup                 ║@kerouanton║
-╚═════════════════════════════════════════════════════════════════╩═══════════╝
-
 ## Intended goal
 
 My actual goal is to "dockerize" this setup, the following way: 
@@ -59,6 +27,8 @@ Since it's my first try, I found out some glitches and subtleties :
 
 * boot2docker :
   - nothing special, it works quite well. For this, I tried several solutions, including Vagrant and Ansible, but the only solution I found efficient is with docker-machine, which natively supports vsphere (i.e. without paying a license and/or needing to pay for a full vSphere license).
+  - Update: I realized it works quite well on a 60-day ESXi trial. But once you activate the *free* license, you're caught. It doesn't work any more... ;-(
+ 
 
 * squeezebox-smb:
   - mounting a CIFS share within a docker container needs special rights when running the container.
@@ -66,10 +36,10 @@ Since it's my first try, I found out some glitches and subtleties :
   - I didn't find out yet how to share the mounted CIFS directory as a volume to the other containers... help !
 
 * squeezebox-lms:
-  - todo.
+  - Done. Nothing special to say. It runs on Debian and uses Perl.
 
 ## Todo
 
 1. Finding a way to share the mounted CIFS share on squeezebox-smb to my other container (squeezebox-lms at the end).
-2. Creating a Dockerfile for squeezebox-lms.
+2. Creating a Dockerfile for squeezebox-lms : DONE
 3. Learning to use docker-compose to build everything at once.
